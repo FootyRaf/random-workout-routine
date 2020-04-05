@@ -3,35 +3,57 @@ import java.util.Scanner;
 
 public class Routine {
 
-    private static final Group[] routine =
+    private static final ExerciseOption[][] routineArray =
             {
                     // Group A
-                    new Group(new ExerciseOption[]{
-                            new ExerciseOption("sit ups", 8, 25),
-                            new ExerciseOption("press ups", 5, 20),
-                            new ExerciseOption("tricep dips", 10, 25)
-                    }),
+                    {
+                            new ExerciseOption("tricep press ups", 4, 10),
+                            new ExerciseOption("press ups", 6, 18),
+                            new ExerciseOption("diamond press ups", 4, 10),
+                            new ExerciseOption("lower chair press ups", 10, 20),
+                            new ExerciseOption("upper chair press ups", 4, 10),
+                            new ExerciseOption("shoulder press", 6, 15),
+                            new ExerciseOption("shoulder dumbell raise", 6, 14),
+                            new ExerciseOption("tricep dips", 10, 20),
+                            new ExerciseOption("slow-mo press up (seconds)", 15, 35)
+                    },
                     // Group B
-                    new Group(new ExerciseOption[]{
-                            new ExerciseOption("rope climbs", 1, 5),
-                            new ExerciseOption("monkey bars", 1, 4),
+                    {
+                            new ExerciseOption("rope climbs or bar holds", 1, 4),
+                            new ExerciseOption("pull ups where you touch your toes to the bar", 2, 6),
+                            new ExerciseOption("monkey bars", 1, 1),
+                            new ExerciseOption("pull ups either side of bar", 2, 5),
+                            new ExerciseOption("wide pull ups", 3, 8),
+                            new ExerciseOption("elastic band pulls across chest", 4, 12),
+                            new ExerciseOption("band pull with band attached to tree", 10, 24),
                             new ExerciseOption("bicep curls", 8, 26)
-                    })
+                    }
             };
 
     private static Random random = new Random();
     private static Scanner keyboard = new Scanner(System.in);
 
     private static boolean inProgress = true;
+    private static Group[] routine;
     private static int currentGroupIndex = 0;
+    private static int sets = 1;
 
     public static void main(String[] args) {
+        routine = initialiseRoutine();
         do {
             Exercise nextExercise = nextExercise(currentGroupIndex);
             displayExercise(nextExercise);
             waitForInput();
             incrementCurrentGroupIndex();
         } while (inProgress);
+    }
+
+    private static Group[] initialiseRoutine() {
+        Group[] routine = new Group[routineArray.length];
+        for (int i = 0; i < routineArray.length; i++) {
+            routine[i] = new Group(routineArray[i]);
+        }
+        return routine;
     }
 
     private static Exercise nextExercise(int currentGroupIndex) {
@@ -55,6 +77,7 @@ public class Routine {
 
     private static void displayExercise(Exercise exercise) {
         System.out.println("Exercise : " + exercise.name + ", reps : " + exercise.repCount);
+        System.out.println("Number of sets completed :" + sets++);
     }
 
     private static void waitForInput() {
